@@ -1,0 +1,53 @@
+input: '[]{()}'
+blank: ' '
+start state: q1
+table:
+    
+    q1:
+      ['(', '{', '[']: {R}
+      ')': {write: 'N', L: q2a}
+      '}': {write: 'N', L: q2b}
+      ']': {write: 'N', L: q2c}
+      'N': {R: q1}
+      ' ': {L: q5}
+    
+    q2a:
+      '(': {write: 'N', L: q3}
+      ['{', '[']: {write: 'N', L: clL}
+      'N': {L: q2a}
+    
+    q2b:
+      '{': {write: 'N', L: q3}
+      ['(', '[']: {write: 'N', L: clL}
+      'N': {L: q2b}
+    
+    q2c:
+      '[': {write: 'N', L: q3}
+      ['{', '(']: {write: 'N', L: clL}
+      'N': {L: q2c}
+      
+    q3:
+      ['(', ')', '{', '}', '[', ']', 'N']: {L: q3}
+      ' ': {R: q4}
+    
+    tmp:
+      ['(', ')', '{', '}', '[', ']', 'N', 'Y', ' ']: {R: q1}
+     
+    q4:
+      ['(', '{', '[']: {L: tmp}
+      'N': {write: ' ', R: q4}
+      ' ': {write: 'Y', L: done}
+      
+    q5:
+      ['(', ')', '{', '}', '[', ']', 'N']: {write: ' ', L: q5}
+      ' ': {write: 'N', L: done}
+    
+    clL:
+      ['(', ')', '{', '}', '[', ']', 'N']: {write: 'N', L: clL}
+      ' ': {R: clR}
+    
+    clR:
+      ['(', ')', '{', '}', '[', ']', 'N']: {write: ' ', R: clR}
+      ' ': {write: 'N', L: done}
+    
+    done:

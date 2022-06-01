@@ -1,0 +1,14 @@
+input: '||||+||'
+blank: ' '
+start state: start
+table:
+  start:
+    '|': {R}
+    '+': {write: '|', R: go_to_end}
+    ' ': {L: done}
+  go_to_end:
+      '|': {R}
+      ' ': {L: delete_last}
+  delete_last:
+      '|': {write: ' ', L: done}
+  done:
